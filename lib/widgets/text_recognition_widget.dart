@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:park_admin/helpers/utils.dart';
 import 'package:park_admin/widgets/text_area_widget.dart';
 
+import '../helpers/screen_navigation.dart';
+import '../screens/reservation/check_reservation_screen.dart';
 import 'controls_widget.dart';
 
 class TextRecognitionWidget extends StatefulWidget {
@@ -45,6 +47,20 @@ class TextRecognitionWidgetState extends State<TextRecognitionWidget> {
                 text: scannedText,
                 onClickedCopy: copyToClipboard,
               ),
+              const SizedBox(
+                height: 15,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    scannedText.isNotEmpty
+                        ? changeScreen(
+                            context,
+                            CheckReservationScreen(
+                              plateNumber: scannedText.toLowerCase(),
+                            ))
+                        : showSnackBar('No plate number', context);
+                  },
+                  child: const Text('Check Reservation')),
             ],
           ),
         ),
@@ -69,8 +85,6 @@ class TextRecognitionWidgetState extends State<TextRecognitionWidget> {
       context: context,
       builder: (BuildContext context) {
         return const AlertDialog(
-          // title: const Text("Alert Dialog Box"),
-          // content: const Text("You have raised a Alert Dialog Box"),
           actions: <Widget>[
             Center(
               child: CircularProgressIndicator(),

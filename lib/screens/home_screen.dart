@@ -36,11 +36,6 @@ class HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 25),
               const TextRecognitionWidget(),
               const SizedBox(height: 15),
-              ElevatedButton(
-                  onPressed: () =>
-                      changeScreen(context, const CheckReservationScreen()),
-                  child: const Text('Check Reservation')),
-              const SizedBox(height: 15),
             ],
           ),
         ),

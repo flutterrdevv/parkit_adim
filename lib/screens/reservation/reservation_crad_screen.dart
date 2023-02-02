@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:park_admin/helpers/utils.dart';
 
 import '../../../../helpers/constant.dart';
 import '../../../../widgets/custom_round_button.dart';
@@ -11,6 +12,11 @@ class ResevationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime startTime =
+        DateTime.parse(data['reservationTime'].toDate().toString());
+    DateTime endTime =
+        DateTime.parse(data['reservationEndTime'].toDate().toString());
+    DateTime currentTime = DateTime.now();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -180,15 +186,29 @@ class ResevationCard extends StatelessWidget {
                 ],
               ),
             ),
-            Align(
-              alignment: Alignment.center,
-              child: CRoundButton(
-                width: 300,
-                function: () {},
-                text: 'Reserved',
-                color: grey,
-              ),
-            )
+            currentTime.isAfter(startTime) && currentTime.isBefore(endTime) ||
+                    currentTime.isAtSameMomentAs(startTime) ||
+                    currentTime.isAtSameMomentAs(endTime)
+                ? Align(
+                    alignment: Alignment.center,
+                    child: CRoundButton(
+                      width: 300,
+                      function: () {
+                        showSnackBar('You can park until $endTime', context);
+                      },
+                      text: 'Reserved',
+                      color: red,
+                    ),
+                  )
+                : Align(
+                    alignment: Alignment.center,
+                    child: CRoundButton(
+                      width: 300,
+                      function: () {},
+                      text: 'Reserved',
+                      color: grey,
+                    ),
+                  )
           ],
         ),
       ),
